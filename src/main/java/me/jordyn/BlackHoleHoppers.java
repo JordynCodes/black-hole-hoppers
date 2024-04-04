@@ -11,8 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.jordyn.commands.GiveCommand;
 import me.jordyn.configs.HopperData;
 import me.jordyn.listeners.BreakHopperListener;
-import me.jordyn.listeners.ColllectItemsListener;
+import me.jordyn.listeners.CollectItemsListener;
 import me.jordyn.listeners.PlaceHopperListener;
+import me.jordyn.tasks.CollectItemsTask;
 
 public class BlackHoleHoppers extends JavaPlugin{
   private static final Logger LOGGER=Logger.getLogger("blackholehoppers");
@@ -35,17 +36,18 @@ public class BlackHoleHoppers extends JavaPlugin{
     getCommand("gethopper").setExecutor(new GiveCommand());
     getServer().getPluginManager().registerEvents(new PlaceHopperListener(plugin), plugin);
     getServer().getPluginManager().registerEvents(new BreakHopperListener(plugin), plugin);
-    getServer().getPluginManager().registerEvents(new ColllectItemsListener(), plugin);
+    getServer().getPluginManager().registerEvents(new CollectItemsListener(), plugin);
+    new CollectItemsTask(this).runTaskTimer(this, 0L, 20L);
 
   }
 
   public ItemStack getHopper(){
-        ItemStack hopper = new ItemStack(Material.HOPPER);
-        ItemMeta hopperMeta = hopper.getItemMeta();
-        PersistentDataContainer data = hopperMeta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "message"), PersistentDataType.STRING, "you placed a black hole hopper");
-        hopper.setItemMeta(hopperMeta);
-        return hopper;
+      ItemStack hopper = new ItemStack(Material.HOPPER);
+      ItemMeta hopperMeta = hopper.getItemMeta();
+      PersistentDataContainer data = hopperMeta.getPersistentDataContainer();
+      data.set(new NamespacedKey(plugin, "message"), PersistentDataType.STRING, "you placed a black hole hopper");
+      hopper.setItemMeta(hopperMeta);
+      return hopper;
   }
 
   public void onDisable(){

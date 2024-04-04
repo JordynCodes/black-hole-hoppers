@@ -6,15 +6,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
-
+import org.bukkit.inventory.ItemStack;
 import me.jordyn.configs.HopperData;
 
-public class ColllectItemsListener implements Listener {
+public class CollectItemsListener implements Listener {
 
     @EventHandler
     public void onItemDrop(ItemSpawnEvent e){
-
-        System.out.println("event triggered");
 
         Location itemLocation = e.getLocation();
 
@@ -29,11 +27,14 @@ public class ColllectItemsListener implements Listener {
             Location hopperLocation = hoppersSection.getLocation(key);
             if(itemLocation.distanceSquared(hopperLocation) <= range * range){
                 System.out.println("this item is in range of the hopper at " + hopperLocation);
+                e.setCancelled(true);
                 Hopper hopper = (Hopper) hopperLocation.getBlock().getState();
+                ItemStack droppedItem = e.getEntity().getItemStack();
+                hopper.getInventory().addItem(droppedItem);
                 return;
             }
         }
 
     }
-    
+
 }
