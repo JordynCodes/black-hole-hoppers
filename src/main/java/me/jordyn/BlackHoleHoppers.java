@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.jordyn.commands.GiveCommand;
 import me.jordyn.configs.HopperData;
 import me.jordyn.listeners.BreakHopperListener;
+import me.jordyn.listeners.ColllectItemsListener;
 import me.jordyn.listeners.PlaceHopperListener;
 
 public class BlackHoleHoppers extends JavaPlugin{
@@ -34,6 +35,7 @@ public class BlackHoleHoppers extends JavaPlugin{
     getCommand("gethopper").setExecutor(new GiveCommand());
     getServer().getPluginManager().registerEvents(new PlaceHopperListener(plugin), plugin);
     getServer().getPluginManager().registerEvents(new BreakHopperListener(plugin), plugin);
+    getServer().getPluginManager().registerEvents(new ColllectItemsListener(), plugin);
 
   }
 

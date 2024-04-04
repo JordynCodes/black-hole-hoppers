@@ -28,24 +28,17 @@ public class BreakHopperListener implements Listener{
             return;
         }
 
-        Boolean hopperFound = false;
-
         for (String key : hoppersSection.getKeys(false)){
-            if (blockLocation.equals(HopperData.getHopperDataFile().get("hoppers." + key))){
+            if (blockLocation.equals(hoppersSection.getLocation(key))){
                 HopperData.getHopperDataFile().set("hoppers." + key, null);
                 HopperData.saveHopperDataFile();
-                hopperFound = true;
-                break;
+                ItemStack droppedItem = plugin.getHopper();
+                e.setDropItems(false);
+                block.getWorld().dropItemNaturally(block.getLocation(), droppedItem);
+                return;
             }
         }
 
-        if (!hopperFound){
-            return;
-        }
-
-        ItemStack droppedItem = plugin.getHopper();
-        e.setDropItems(false);
-        block.getWorld().dropItemNaturally(block.getLocation(), droppedItem);
     }
-    
+
 }
