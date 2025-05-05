@@ -1,7 +1,8 @@
 name: blackholehoppers
 main: me.jordyn.BlackHoleHoppers
 version: 1.0.0
-api-version: '1.20'
+api-version: '1.21'
+softdepend: [WildStacker]
 commands:
   gethopper:
     usage: /<command>

@@ -1,40 +1,34 @@
 package me.jordyn.listeners;
 
-import org.bukkit.Location;
+import java.util.*;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Hopper;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.inventory.ItemStack;
-import me.jordyn.configs.HopperData;
+import org.bukkit.event.inventory.HopperInventorySearchEvent;
+import org.bukkit.util.BoundingBox;
 
 public class CollectItemsListener implements Listener {
 
     @EventHandler
-    public void onItemDrop(ItemSpawnEvent e){
+    public void onHopperSearch(HopperInventorySearchEvent e){
 
-        Location itemLocation = e.getLocation();
+        Double range = 4.0;
+        Hopper hopper = (Hopper) e.getBlock().getState();
+        BoundingBox box = hopper.getBlock().getBoundingBox().expand(range);
+        Collection<Entity> nearbyEntities = hopper.getWorld().getNearbyEntities(box);
 
-        ConfigurationSection hoppersSection = HopperData.getHopperDataFile().getConfigurationSection("hoppers");
-        if (hoppersSection == null) {
-            return;
-        }
+        for (Entity entity : nearbyEntities){
 
-        Integer range = 4;
+            if (entity instanceof Item item){
 
-        for (String key : hoppersSection.getKeys(false)){
-            Location hopperLocation = hoppersSection.getLocation(key);
-            if(itemLocation.distanceSquared(hopperLocation) <= range * range){
-                System.out.println("this item is in range of the hopper at " + hopperLocation);
-                e.setCancelled(true);
-                Hopper hopper = (Hopper) hopperLocation.getBlock().getState();
-                ItemStack droppedItem = e.getEntity().getItemStack();
-                hopper.getInventory().addItem(droppedItem);
-                return;
+                Bukkit.getServer().broadcastMessage("nearby entity " + item);
+                item.remove();
+                hopper.getInventory().addItem(item.getItemStack());
+
             }
         }
-
     }
-
 }
