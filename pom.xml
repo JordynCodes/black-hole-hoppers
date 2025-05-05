@@ -21,10 +21,6 @@
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
-		<repository>
-			<id>bg-repo</id>
-			<url>https://repo.bg-software.com/repository/api/</url>
-		</repository>
 	</repositories>
 
 	<dependencies>
@@ -40,11 +36,6 @@
 			<artifactId>spigot-api</artifactId>
 			<version>1.21.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.bgsoftware</groupId>
-			<artifactId>WildStackerAPI</artifactId>
-			<version>2024.4</version>
 		</dependency>
 	</dependencies>
 
