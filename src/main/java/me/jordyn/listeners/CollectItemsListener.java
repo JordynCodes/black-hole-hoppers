@@ -20,24 +20,24 @@ public class CollectItemsListener implements Listener {
     @EventHandler
     public void onHopperSearch(HopperInventorySearchEvent e){
 
-        Double range = 4.0;
-        Hopper hopper = (Hopper) e.getBlock().getState();
-        BoundingBox box = hopper.getBlock().getBoundingBox().expand(range);
-        Collection<Entity> nearbyEntities = hopper.getWorld().getNearbyEntities(box);
         ConfigurationSection hoppersSection = HopperData.getHopperDataFile().getConfigurationSection("hoppers");
-
         if (hoppersSection == null) {
             return;
         }
 
+        Hopper hopper = (Hopper) e.getBlock().getState();
+        Location hopperLocation = hopper.getBlock().getLocation();
+        if (!(BlackHoleHoppers.getPlugin().isBlackHoleHopper(hopperLocation))){
+            return;
+        }
+
+        Double range = 4.0;
+        BoundingBox box = hopper.getBlock().getBoundingBox().expand(range);
+        Collection<Entity> nearbyEntities = hopper.getWorld().getNearbyEntities(box);
+
         for (Entity entity : nearbyEntities){
 
             if (!(entity instanceof Item item)){
-                continue;
-            }
-
-            Location hopperLocation = hopper.getBlock().getLocation();
-            if (!(BlackHoleHoppers.getPlugin().isBlackHoleHopper(hopperLocation))){
                 continue;
             }
 
