@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Hopper;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -56,23 +57,47 @@ public class BlackHoleHoppers extends JavaPlugin{
   }
 
   // checks if a hopper is a vanilla hopper or a plugin hopper by comparing its location from config
-
   public Boolean isBlackHoleHopper(Location hopperLocation){
 
     ConfigurationSection hoppersSection = HopperData.getHopperDataFile().getConfigurationSection("hoppers");
-    if (hoppersSection == null) {
+    if (hoppersSection == null)
         return false;
-    }
 
     for (String key : hoppersSection.getKeys(false)){
-      if (hopperLocation.equals(hoppersSection.getLocation(key))){
+      if (hopperLocation.equals(hoppersSection.getLocation(key)))
         return true;
-      }
     }
     
     return false;
 
   }
+
+  public Boolean isHopperFull(Hopper hopper) {
+    for (ItemStack hopperSlot : hopper.getInventory().getContents()) {
+
+        if (hopperSlot == null || hopperSlot.getType().isAir())
+            return false;
+
+        if (hopperSlot.getAmount() < hopperSlot.getMaxStackSize())
+            return false;
+
+    }
+    return true;
+  }
+
+  public Boolean canHopperAcceptItem(Hopper hopper, ItemStack itemStack) {
+    for (ItemStack hopperSlot : hopper.getInventory().getContents()) {
+
+        if (hopperSlot == null || hopperSlot.getType().isAir()) 
+            return true;
+
+        if (hopperSlot.getType() == itemStack.getType() && hopperSlot.getAmount() < itemStack.getMaxStackSize()) 
+            return true;
+
+    }
+    return false;
+  }
+
 
   public void onDisable(){
     LOGGER.info("blackholehoppers disabled");

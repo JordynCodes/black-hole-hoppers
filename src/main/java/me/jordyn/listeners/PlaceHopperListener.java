@@ -24,9 +24,8 @@ public class PlaceHopperListener implements Listener{
         
         PersistentDataContainer data = e.getItemInHand().getItemMeta().getPersistentDataContainer();
 
-        if (!data.has((new NamespacedKey(plugin, "message")), PersistentDataType.STRING)){
+        if (!data.has((new NamespacedKey(plugin, "message")), PersistentDataType.STRING))
             return;
-        }
 
         Block block = e.getBlock();
         Location location = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ());

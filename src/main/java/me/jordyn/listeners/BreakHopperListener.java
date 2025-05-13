@@ -24,9 +24,8 @@ public class BreakHopperListener implements Listener{
         Location blockLocation = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ());
 
         ConfigurationSection hoppersSection = HopperData.getHopperDataFile().getConfigurationSection("hoppers");
-        if (hoppersSection == null) {
+        if (hoppersSection == null)
             return;
-        }
 
         for (String key : hoppersSection.getKeys(false)){
             if (blockLocation.equals(hoppersSection.getLocation(key))){
